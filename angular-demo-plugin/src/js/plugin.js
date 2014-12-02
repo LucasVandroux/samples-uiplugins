@@ -34,7 +34,15 @@
                 tabManager.addTab();
             },
             MessageReceived: function (dataString, sourceWindow) {
-                var data = JSON.parse(dataString);
+
+                try {
+                  // verify that the JSON is valid
+                  var data = JSON.parse(dataString);
+                }
+                catch (e) {
+                    console.log('[AngularTest] Unable to parse the message received. -> Message ignored.');
+                }
+
                 if (data && data.sender === pluginName) {
                     if (data.action === 'GetTabData') {
                         tabManager.setTabWindow(sourceWindow);
